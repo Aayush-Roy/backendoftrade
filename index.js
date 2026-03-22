@@ -4,12 +4,17 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import holdingRoute from "./routes/holding.route.js"
 import positionRoute from "./routes/position.route.js"
+import authRoutes from "./routes/auth.routes.js";
+import { prisma } from "./lib/prisma.js";
 dotenv.config();
 const app = express();
 app.use(bodyParser.json())
 app.use(cors());
 
 const PORT = process.env.PORT
+
+
+app.use("/api/auth", authRoutes);
 app.use("/api/holdings", holdingRoute);
 app.use("/api/positions", positionRoute);
 

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { getAllPositions} from "../controllers/main.controller.js";
 const router = Router();
-
-router.get("/",getAllPositions);
+import { verifyToken } from "../middleware/auth.midddleware.js";
+router.get("/",verifyToken,getAllPositions);
 
 export default router;

@@ -1,15 +1,22 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client-js"
-  // output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  username  String   @unique
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+
+  holdings  Holding[]
+  orders    Order[]
+  positions Position[]
 }
 
 model Holding {
@@ -21,14 +28,20 @@ model Holding {
   net    String
   day    String
   isLoss Boolean @default(false)
+
+  userId Int?          // optional
+  user   User? @relation(fields: [userId], references: [id])
 }
 
 model Order {
-  id     Int     @id @default(autoincrement())
-  name   String
-  qty    Int
-  price  Float
-  mode   String
+  id    Int    @id @default(autoincrement())
+  name  String
+  qty   Int
+  price Float
+  mode  String
+
+  userId Int?          // optional
+  user   User? @relation(fields: [userId], references: [id])
 }
 
 model Position {
@@ -41,4 +54,7 @@ model Position {
   net     String
   day     String
   isLoss  Boolean
+
+  userId Int?          // optional
+  user   User? @relation(fields: [userId], references: [id])
 }
