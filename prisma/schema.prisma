@@ -17,6 +17,7 @@ model User {
   holdings  Holding[]
   orders    Order[]
   positions Position[]
+  watchlist Watchlist[]
 }
 
 model Holding {
@@ -57,4 +58,15 @@ model Position {
 
   userId Int?          // optional
   user   User? @relation(fields: [userId], references: [id])
+}
+
+model Watchlist {
+  id      Int     @id @default(autoincrement())
+  name    String
+  price   Float
+  percent String
+  isDown  Boolean
+
+  userId Int? //optional
+  user   User? @relation(fields:[userId], references:[id])
 }
